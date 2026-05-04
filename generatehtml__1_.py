@@ -456,7 +456,7 @@ body{
 .layout{display:flex;height:100vh;overflow:hidden}
 
 aside{
-  width:232px;flex-shrink:0;background:rgba(214,201,176,.85);
+  width:180px;flex-shrink:0;background:rgba(214,201,176,.85);
   backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   border-right:1px solid rgba(200,180,138,.3);
   display:flex;flex-direction:column;
@@ -591,23 +591,23 @@ body.theme-facebook .btn-ghost{border-color:#dadde1;color:#65676b}
 body.theme-facebook .btn-ghost:hover{border-color:#1877f2;color:#1877f2}
 
 .sidebar-logo{
-  padding:22px 20px 18px;
-  font-family:'Inter',sans-serif;font-size:18px;color:var(--accent);
-  display:flex;align-items:center;gap:9px;font-weight:800;
+  padding:12px 14px 10px;
+  font-family:'Inter',sans-serif;font-size:15px;color:var(--accent);
+  display:flex;align-items:center;gap:7px;font-weight:800;
   border-bottom:1px solid rgba(200,180,138,.2);letter-spacing:-.5px
 }
 .sidebar-section{
-  padding:20px 16px 6px;font-size:9px;
+  padding:10px 12px 4px;font-size:9px;
   text-transform:uppercase;letter-spacing:2.5px;color:var(--muted);font-weight:700;
   opacity:.7
 }
 .nav-item{
-  display:flex;align-items:center;gap:9px;
-  padding:9px 18px;font-size:13px;color:var(--text2);font-weight:500;
-  cursor:pointer;border-radius:10px;margin:2px 8px;
+  display:flex;align-items:center;gap:7px;
+  padding:6px 12px;font-size:12px;color:var(--text2);font-weight:500;
+  cursor:pointer;border-radius:8px;margin:1px 6px;
   transition:all 0.2s ease;border:none;background:none;
   font-family:'Inter',sans-serif;text-align:left;
-  width:calc(100% - 16px)
+  width:calc(100% - 12px)
 }
 .nav-item:hover{background:rgba(255,255,255,.12);color:var(--text);transform:translateX(2px)}
 .nav-item.active{background:rgba(139,94,42,.15);color:var(--accent)}
@@ -650,7 +650,7 @@ body.theme-ember   .nav-item.active{background:rgba(212,114,74,.1);color:var(--a
 .page-entering{animation:page-fadein 0.22s cubic-bezier(.4,0,.2,1) both}
 
 /* -- MAIN ------------------------------------------ */
-.main{margin-left:232px;flex:1;display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden;height:100vh}
+.main{margin-left:180px;flex:1;display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden;height:100vh}
 
 .topbar{
   background:rgba(214,201,176,.8);
@@ -1796,10 +1796,10 @@ body.theme-arctic .notes-folder-item.active .notes-folder-count{background:rgba(
 
 /* Column 2 — Notes list */
 .notes-list-panel{
-  width:260px;flex-shrink:0;
+  width:200px;flex-shrink:0;
   background:var(--sidebar);border-right:1px solid var(--border2);
   display:flex;flex-direction:column;
-  flex:0 0 260px;align-self:stretch;
+  flex:0 0 200px;align-self:stretch;
   min-height:0;overflow:hidden
 }
 .notes-list-hdr{
@@ -1832,14 +1832,14 @@ body.theme-arctic .notes-folder-item.active .notes-folder-count{background:rgba(
 .notes-section-label{
   font-size:9px;font-weight:800;text-transform:uppercase;
   letter-spacing:1.8px;color:var(--muted);
-  padding:10px 14px 4px;display:flex;align-items:center;gap:5px;
+  padding:6px 10px 2px;display:flex;align-items:center;gap:5px;
   user-select:none;background:transparent
 }
 
 .notes-list-items{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;background:var(--sidebar)}
 .notes-list-items::-webkit-scrollbar{display:none}
 .notes-list-item{
-  padding:11px 14px 11px 17px;border-bottom:1px solid var(--border);
+  padding:6px 10px 6px 13px;border-bottom:1px solid var(--border);
   cursor:pointer;transition:background 0.12s;position:relative;
   background:var(--sidebar)
 }
