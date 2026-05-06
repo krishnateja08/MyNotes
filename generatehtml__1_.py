@@ -7562,9 +7562,10 @@ function renderNotesList(){
     const cl  = n.color&&n.color!=='default' ? ' cl-'+n.color : '';
     const dateStr = (n.updated||n.created||'').slice(0,10);
     const snippet = (n.body||'')
+      .replace(/<[^>]*>/g,' ')
+      .replace(/&nbsp;/g,' ').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&')
       .replace(/!\[[^\]]*\]\((?:data:image\/[^)]+|%%IMGDATA:[^)]+%%)\)/g,'📷')
-      .replace(/\n/g,' ').slice(0,72);
-    const isActive = n.id===_selectedNoteId ? ' active' : '';
+      .replace(/\s+/g,' ').trim().slice(0,72);
     return `<div class="notes-list-item${isActive}" onclick="selectNote('${n.id}')" id="nli-${n.id}">
       <div class="notes-list-item-accent${cl}"></div>
       <div style="display:flex;align-items:baseline;justify-content:space-between;gap:6px;min-width:0">
@@ -7697,8 +7698,10 @@ async function saveCurrentNoteInline(){
     const n = DATA.notes.find(x=>x.id===_selectedNoteId);
     if(n){
       const snippet = (n.body||'')
+        .replace(/<[^>]*>/g,' ')
+        .replace(/&nbsp;/g,' ').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&')
         .replace(/!\[[^\]]*\]\((?:data:image\/[^)]+|%%IMGDATA:[^)]+%%)\)/g,'📷')
-        .replace(/\n/g,' ').slice(0,72);
+        .replace(/\s+/g,' ').trim().slice(0,72);
       const titleDiv = li.querySelector('.notes-list-item-title');
       const snippetDiv = li.querySelector('.notes-list-item-snippet');
       const dateDiv = li.querySelector('.notes-list-item-date');
