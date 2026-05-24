@@ -3413,6 +3413,13 @@ body.theme-ember .tan-item.is-low{background:rgba(5,150,105,.06);border-color:rg
 .tan-item-strip.medium{background:#d97706}
 .tan-item-strip.low{background:#059669}
 .tan-item-strip.none{background:var(--border)}
+/* Category colour strips */
+.tan-item-strip.cat-personal{background:#7f6fd4}
+.tan-item-strip.cat-official{background:#3b82f6}
+.tan-item-strip.cat-kids{background:#16a34a}
+.tan-item-strip.cat-visit{background:#ea580c}
+.tan-item-strip.cat-events{background:#0891b2}
+.tan-item-strip.cat-recurring{background:#6366f1}
 .tan-item-inner{padding:7px 12px;display:flex;flex-direction:column;gap:4px;flex:1;min-width:0}
 .tan-item-top{display:flex;align-items:center;gap:8px}
 .tan-item-priority{
@@ -3451,6 +3458,10 @@ body.theme-ember .tan-item.is-low{background:rgba(5,150,105,.06);border-color:rg
 }
 .tan-cat-badge.personal{background:#dbeafe;color:#1e40af}
 .tan-cat-badge.official{background:#f3e8ff;color:#6b21a8}
+.tan-cat-badge.kids{background:#dcfce7;color:#15803d}
+.tan-cat-badge.visit{background:#ffedd5;color:#c2410c}
+.tan-cat-badge.events{background:#e0f2fe;color:#0369a1}
+.tan-cat-badge.recurring{background:#ede9fe;color:#5b21b6}
 .tan-cat-sel{
   background:var(--sidebar);border:1.5px solid var(--border2);border-radius:10px;
   padding:10px 12px;color:var(--text);font-size:13px;font-family:'Inter',sans-serif;
@@ -3523,9 +3534,88 @@ body.theme-ember .tan-item.is-low{background:rgba(5,150,105,.06);border-color:rg
   padding:5px 10px;color:var(--text2);font-size:12px;font-family:'Inter',sans-serif;
   outline:none;cursor:pointer;font-weight:600;margin-left:auto
 }
+/* ── TASKNOTES 3-PANEL LAYOUT ─────────────────────── */
+.tan-body{display:flex;flex:1;overflow:hidden;min-height:0}
+.tan-sidebar{width:185px;flex-shrink:0;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin}
+.tan-sidebar-head{padding:12px 10px 8px;border-bottom:1px solid var(--border);flex-shrink:0}
+.tan-sidebar-search{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:12px;color:var(--text);font-family:'Inter',sans-serif;outline:none;box-sizing:border-box}
+.tan-sidebar-search::placeholder{color:var(--muted)}
+.tan-sidebar-search:focus{border-color:var(--accent)}
+.tan-sidebar-lbl{padding:8px 12px 3px;font-size:9px;text-transform:uppercase;letter-spacing:2px;color:var(--text2);font-weight:700}
+.tan-cat-pill{display:flex;align-items:center;gap:7px;padding:6px 12px;font-size:11.5px;color:var(--text2);cursor:pointer;border-radius:20px;margin:2px 6px;border:1px solid transparent;background:none;font-family:'Inter',sans-serif;width:calc(100% - 12px);text-align:left;transition:all .15s}
+.tan-cat-pill:hover{background:var(--s2);border-color:var(--border);color:var(--text)}
+.tan-cat-pill.active{font-weight:700;background:var(--s2)}
+.tan-cat-pill-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.tan-cat-pill-cnt{margin-left:auto;font-size:10px;background:var(--s2);border-radius:12px;padding:1px 6px;color:var(--text2);font-weight:700}
+.tan-center{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+/* ── SUMMARY PANEL ─────────────────────────────────── */
+.tan-summary{width:218px;flex-shrink:0;background:var(--sidebar);border-left:1px solid var(--border);overflow-y:auto;padding:12px 10px;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin}
+.tan-summary::-webkit-scrollbar{width:3px}
+.tan-sum-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);padding:2px 0}
+.tan-stat-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:11px 13px;display:flex;flex-direction:column;gap:3px}
+.tan-stat-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted)}
+.tan-stat-val{font-size:24px;font-weight:800;color:var(--text);line-height:1.1;font-family:'Inter',sans-serif}
+.tan-stat-sub{font-size:11px;color:var(--muted)}
+.tan-pbar-box{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+.tan-pbar-row{display:flex;align-items:center;gap:7px}
+.tan-pbar-lbl{font-size:11px;font-weight:700;width:38px;flex-shrink:0}
+.tan-pbar-track{flex:1;height:6px;background:var(--s2);border-radius:3px;overflow:hidden}
+.tan-pbar-fill{height:100%;border-radius:3px;transition:width .5s ease}
+.tan-pbar-n{font-size:10px;color:var(--muted);font-weight:700;width:18px;text-align:right;flex-shrink:0}
+/* ── MINI CALENDAR ──────────────────────────────────── */
+.tan-cal-wrap{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 8px}
+.tan-cal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+.tan-cal-month{font-size:12px;font-weight:700;color:var(--text);font-family:'Inter',sans-serif}
+.tan-cal-nav{background:none;border:none;cursor:pointer;color:var(--muted);font-size:12px;padding:3px 6px;border-radius:5px;transition:all .15s;line-height:1}
+.tan-cal-nav:hover{color:var(--text);background:var(--s2)}
+.tan-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.tan-cal-dh{font-size:9px;font-weight:700;color:var(--muted);text-align:center;padding:2px 0;text-transform:uppercase}
+.tan-cal-cell{font-size:11px;text-align:center;padding:4px 1px;border-radius:5px;cursor:pointer;color:var(--text2);transition:background .12s;line-height:1.3;position:relative}
+.tan-cal-cell:hover{background:var(--s2);color:var(--text)}
+.tan-cal-cell.is-today{background:var(--accent);color:#fff;font-weight:700}
+.tan-cal-cell.is-today:hover{background:var(--accent2)}
+.tan-cal-cell.has-task::after{content:'';position:absolute;bottom:1px;left:50%;transform:translateX(-50%);width:4px;height:4px;background:var(--accent);border-radius:50%}
+.tan-cal-cell.is-today.has-task::after{background:rgba(255,255,255,.7)}
+.tan-cal-cell.is-active{background:rgba(139,94,42,.14);color:var(--accent);font-weight:700}
+.tan-cal-cell.is-other{color:var(--border2);cursor:default}
+.tan-week-box{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:5px}
+/* ── TASK DETAIL PANEL ──────────────────────────────── */
+.tan-detail-overlay{position:absolute;inset:0;background:rgba(0,0,0,.38);z-index:60;display:flex;align-items:flex-start;justify-content:flex-end}
+.tan-detail-panel{width:340px;max-width:96%;height:100%;background:var(--sidebar);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;animation:tan-slide-in .2s ease}
+@keyframes tan-slide-in{from{transform:translateX(100%)}to{transform:translateX(0)}}
+.tan-detail-hdr{padding:16px 14px 10px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:10px;flex-shrink:0}
+.tan-detail-strip{width:5px;border-radius:3px;align-self:stretch;min-height:44px;flex-shrink:0}
+.tan-detail-hd{flex:1}
+.tan-detail-title{font-size:15px;font-weight:700;color:var(--text);line-height:1.45;font-family:'Inter',sans-serif;word-break:break-word}
+.tan-detail-sub{font-size:11px;color:var(--muted);margin-top:4px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.tan-detail-close{background:none;border:none;font-size:14px;cursor:pointer;color:var(--muted);padding:4px 8px;border-radius:6px;transition:all .15s;align-self:flex-start;flex-shrink:0}
+.tan-detail-close:hover{color:var(--text);background:var(--s2)}
+.tan-detail-body{flex:1;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:12px;scrollbar-width:thin}
+.tan-detail-sec{display:flex;flex-direction:column;gap:5px}
+.tan-detail-sec-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted)}
+.tan-detail-sel{background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:7px 10px;color:var(--text);font-size:12px;font-family:'Inter',sans-serif;outline:none;cursor:pointer;width:100%;transition:border-color .2s}
+.tan-detail-sel:focus{border-color:var(--accent)}
+.tan-detail-notes{width:100%;box-sizing:border-box;background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:8px 10px;color:var(--text);font-size:13px;font-family:'Inter',sans-serif;outline:none;resize:vertical;min-height:72px;line-height:1.55;transition:border-color .2s}
+.tan-detail-notes:focus{border-color:var(--accent)}
+.tan-detail-notes::placeholder{color:var(--muted)}
+.tan-detail-footer{padding:12px 14px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;flex-shrink:0}
+/* ── RECURRENCE BADGE ───────────────────────────────── */
+.tan-recur-badge{font-size:10px;font-weight:700;background:rgba(99,102,241,.12);color:#4f46e5;border-radius:5px;padding:1px 7px;display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
+/* ── CHECKBOX ANIMATION ─────────────────────────────── */
+@keyframes tan-check-pop{0%{transform:scale(1)}40%{transform:scale(1.45)}100%{transform:scale(1)}}
+.tan-done-cb:checked{animation:tan-check-pop .22s ease}
+/* ── CARD HOVER ELEVATION ───────────────────────────── */
+.tan-item{transition:border-color .15s,transform .15s,box-shadow .15s}
+.tan-item:hover{border-color:var(--border2);box-shadow:0 2px 8px rgba(0,0,0,.09);transform:translateY(-1px)}
+/* ── RESPONSIVE ─────────────────────────────────────── */
+@media(max-width:1100px){.tan-summary{width:190px}}
+@media(max-width:900px){.tan-summary{display:none}}
+@media(max-width:640px){.tan-sidebar{display:none}}
 @media(max-width:640px){
   .tan-header,.tan-quick-bar,.tan-filters,.tan-list{padding-left:14px;padding-right:14px}
   .tan-filters{gap:6px}
+  .tan-detail-panel{width:100%;border-left:none;border-top:1px solid var(--border);height:90%;border-radius:16px 16px 0 0;margin-top:auto}
+  .tan-detail-overlay{align-items:flex-end}
 }
 
 /* -- FINANCE TRACKER ------------------------------- */
@@ -5458,42 +5548,13 @@ body.fontsize-compact .ncard-body{font-size:11px}
 </div>
 
 <!-- ── TASK & ACTION NOTES PAGE ───────────────────── -->
-<div id="page-tasknotes" style="display:none;flex-direction:column;width:100%;min-height:calc(100vh - 60px);background:var(--bg)">
+<div id="page-tasknotes" style="display:none;flex-direction:column;width:100%;height:calc(100vh - 58px);background:var(--bg);position:relative">
 
+  <!-- Header -->
   <div class="tan-header">
     <span class="tan-title">✍️ Task &amp; Action Notes</span>
-    <span style="font-size:12px;color:var(--muted)" id="tan-hdr-count">0 notes</span>
-  </div>
-
-  <!-- Quick-add bar -->
-  <div class="tan-quick-bar">
-    <textarea id="tan-quick-input" placeholder="Quick note… press Ctrl+Enter or click Add" rows="2"
-      onkeydown="if((event.ctrlKey||event.metaKey)&&event.key==='Enter'){addTaskNote();event.preventDefault();}"></textarea>
-    <select id="tan-quick-cat" class="tan-cat-sel" title="Category">
-      <option value="personal">👤 Personal</option>
-      <option value="official">💼 Official</option>
-    </select>
-    <button class="tan-add-btn" onclick="addTaskNote()">+ Add</button>
-  </div>
-
-  <!-- Filter / search bar -->
-  <div class="tan-filters">
-    <div class="tan-filters-row">
-      <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted)">Category</span>
-      <button class="tan-filter-btn active" id="tan-fc-all"      onclick="tanSetCat('all',this)">All</button>
-      <button class="tan-filter-btn"        id="tan-fc-personal" onclick="tanSetCat('personal',this)">👤 Personal</button>
-      <button class="tan-filter-btn"        id="tan-fc-official" onclick="tanSetCat('official',this)">💼 Official</button>
-      <div class="tan-filters-divider"></div>
-      <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted)">Status</span>
-      <button class="tan-filter-btn active" id="tan-f-all"    onclick="tanSetFilter('all',this)">All</button>
-      <button class="tan-filter-btn"        id="tan-f-open"   onclick="tanSetFilter('open',this)">Open</button>
-      <button class="tan-filter-btn"        id="tan-f-done"   onclick="tanSetFilter('done',this)">Done</button>
-      <div class="tan-filters-divider"></div>
-      <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted)">Priority</span>
-      <button class="tan-filter-btn" id="tan-f-high"   onclick="tanSetFilter('high',this)">🔴 High</button>
-      <button class="tan-filter-btn" id="tan-f-medium" onclick="tanSetFilter('medium',this)">🟡 Medium</button>
-      <button class="tan-filter-btn" id="tan-f-low"    onclick="tanSetFilter('low',this)">🟢 Low</button>
-      <input class="tan-search" id="tan-search" placeholder="Search notes…" oninput="renderTaskNotes()">
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="font-size:12px;color:var(--muted)" id="tan-hdr-count">0 notes</span>
       <select class="tan-sort-sel" id="tan-sort" onchange="renderTaskNotes()">
         <option value="date-desc">📅 Newest first</option>
         <option value="date-asc">📅 Oldest first</option>
@@ -5504,11 +5565,186 @@ body.fontsize-compact .ncard-body{font-size:11px}
     </div>
   </div>
 
-  <!-- Notes list -->
-  <div class="tan-list" id="tan-list"></div>
+  <!-- Body: left sidebar | center | right summary -->
+  <div class="tan-body">
+
+    <!-- ── LEFT SIDEBAR ─────────────────────────────── -->
+    <div class="tan-sidebar">
+      <div class="tan-sidebar-head">
+        <input class="tan-sidebar-search" id="tan-search" placeholder="🔍 Search tasks…" oninput="renderTaskNotes()">
+      </div>
+      <div class="tan-sidebar-lbl">Categories</div>
+      <button class="tan-cat-pill active" id="tan-fc-all"       onclick="tanSetCat('all',this)">
+        <span class="tan-cat-pill-dot" style="background:var(--accent)"></span>All tasks
+        <span class="tan-cat-pill-cnt" id="tan-pc-all">0</span>
+      </button>
+      <button class="tan-cat-pill" id="tan-fc-personal"  onclick="tanSetCat('personal',this)">
+        <span class="tan-cat-pill-dot" style="background:#7f6fd4"></span>🏠 Personal
+        <span class="tan-cat-pill-cnt" id="tan-pc-personal">0</span>
+      </button>
+      <button class="tan-cat-pill" id="tan-fc-official"  onclick="tanSetCat('official',this)">
+        <span class="tan-cat-pill-dot" style="background:#3b82f6"></span>💼 Official
+        <span class="tan-cat-pill-cnt" id="tan-pc-official">0</span>
+      </button>
+      <button class="tan-cat-pill" id="tan-fc-kids"      onclick="tanSetCat('kids',this)">
+        <span class="tan-cat-pill-dot" style="background:#16a34a"></span>🧒 Kids
+        <span class="tan-cat-pill-cnt" id="tan-pc-kids">0</span>
+      </button>
+      <button class="tan-cat-pill" id="tan-fc-visit"     onclick="tanSetCat('visit',this)">
+        <span class="tan-cat-pill-dot" style="background:#ea580c"></span>📅 Visit
+        <span class="tan-cat-pill-cnt" id="tan-pc-visit">0</span>
+      </button>
+      <button class="tan-cat-pill" id="tan-fc-events"    onclick="tanSetCat('events',this)">
+        <span class="tan-cat-pill-dot" style="background:#0891b2"></span>🎉 Events
+        <span class="tan-cat-pill-cnt" id="tan-pc-events">0</span>
+      </button>
+      <button class="tan-cat-pill" id="tan-fc-recurring" onclick="tanSetCat('recurring',this)">
+        <span class="tan-cat-pill-dot" style="background:#6366f1"></span>🔁 Recurring
+        <span class="tan-cat-pill-cnt" id="tan-pc-recurring">0</span>
+      </button>
+      <div class="tan-sidebar-lbl" style="margin-top:6px">Status</div>
+      <button class="tan-cat-pill active" id="tan-f-all"    onclick="tanSetFilter('all',this)">
+        <span class="tan-cat-pill-dot" style="background:var(--text2)"></span>All
+      </button>
+      <button class="tan-cat-pill" id="tan-f-open"   onclick="tanSetFilter('open',this)">
+        <span class="tan-cat-pill-dot" style="background:#d97706"></span>⏳ Open
+      </button>
+      <button class="tan-cat-pill" id="tan-f-done"   onclick="tanSetFilter('done',this)">
+        <span class="tan-cat-pill-dot" style="background:#059669"></span>✅ Done
+      </button>
+      <div class="tan-sidebar-lbl" style="margin-top:6px">Priority</div>
+      <button class="tan-cat-pill" id="tan-f-high"   onclick="tanSetFilter('high',this)">
+        <span class="tan-cat-pill-dot" style="background:#dc2626"></span>🔴 High
+      </button>
+      <button class="tan-cat-pill" id="tan-f-medium" onclick="tanSetFilter('medium',this)">
+        <span class="tan-cat-pill-dot" style="background:#d97706"></span>🟡 Medium
+      </button>
+      <button class="tan-cat-pill" id="tan-f-low"    onclick="tanSetFilter('low',this)">
+        <span class="tan-cat-pill-dot" style="background:#059669"></span>🟢 Low
+      </button>
+    </div>
+
+    <!-- ── CENTER: quick-add + list ──────────────────── -->
+    <div class="tan-center">
+      <div class="tan-quick-bar">
+        <textarea id="tan-quick-input" placeholder="Add a task… Ctrl+Enter to save" rows="2"
+          onkeydown="if((event.ctrlKey||event.metaKey)&&event.key==='Enter'){addTaskNote();event.preventDefault();}"></textarea>
+        <select id="tan-quick-cat" class="tan-cat-sel" title="Category">
+          <option value="personal">🏠 Personal</option>
+          <option value="official">💼 Official</option>
+          <option value="kids">🧒 Kids</option>
+          <option value="visit">📅 Visit</option>
+          <option value="events">🎉 Events</option>
+          <option value="recurring">🔁 Recurring</option>
+        </select>
+        <button class="tan-add-btn" onclick="addTaskNote()">+ Add</button>
+      </div>
+      <div class="tan-list" id="tan-list"></div>
+    </div>
+
+    <!-- ── RIGHT SUMMARY PANEL ───────────────────────── -->
+    <div class="tan-summary" id="tan-summary-panel">
+      <div class="tan-sum-lbl">Overview</div>
+      <div class="tan-stat-card">
+        <div class="tan-stat-label">Open Tasks</div>
+        <div class="tan-stat-val" id="tan-stat-open">0</div>
+        <div class="tan-stat-sub">of <span id="tan-stat-total">0</span> total</div>
+      </div>
+      <div class="tan-stat-card">
+        <div class="tan-stat-label">Done Today</div>
+        <div class="tan-stat-val" id="tan-stat-done-today">0</div>
+        <div class="tan-stat-sub">Keep it up! 🎯</div>
+      </div>
+      <div class="tan-sum-lbl">Priority Breakdown</div>
+      <div class="tan-pbar-box">
+        <div class="tan-pbar-row">
+          <div class="tan-pbar-lbl" style="color:#dc2626">High</div>
+          <div class="tan-pbar-track"><div class="tan-pbar-fill" id="tan-pb-high" style="background:#dc2626;width:0%"></div></div>
+          <div class="tan-pbar-n" id="tan-pb-high-n">0</div>
+        </div>
+        <div class="tan-pbar-row">
+          <div class="tan-pbar-lbl" style="color:#d97706">Med</div>
+          <div class="tan-pbar-track"><div class="tan-pbar-fill" id="tan-pb-med" style="background:#d97706;width:0%"></div></div>
+          <div class="tan-pbar-n" id="tan-pb-med-n">0</div>
+        </div>
+        <div class="tan-pbar-row">
+          <div class="tan-pbar-lbl" style="color:#059669">Low</div>
+          <div class="tan-pbar-track"><div class="tan-pbar-fill" id="tan-pb-low" style="background:#059669;width:0%"></div></div>
+          <div class="tan-pbar-n" id="tan-pb-low-n">0</div>
+        </div>
+      </div>
+      <div class="tan-sum-lbl">This Week</div>
+      <div class="tan-week-box">
+        <div style="font-size:12px;color:var(--text2)">Completed: <strong id="tan-week-done" style="color:var(--text)">0</strong></div>
+        <div style="font-size:12px;color:var(--text2);margin-top:3px">Added: <strong id="tan-week-added" style="color:var(--text)">0</strong></div>
+      </div>
+      <div class="tan-sum-lbl">Calendar</div>
+      <div class="tan-cal-wrap" id="tan-mini-cal"></div>
+    </div>
+
+  </div><!-- /tan-body -->
+
+  <!-- ── TASK DETAIL PANEL ──────────────────────────── -->
+  <div class="tan-detail-overlay" id="tan-detail-overlay" style="display:none" onclick="if(event.target===this)tanCloseDetail()">
+    <div class="tan-detail-panel">
+      <div class="tan-detail-hdr">
+        <div class="tan-detail-strip" id="tan-detail-strip"></div>
+        <div class="tan-detail-hd">
+          <div class="tan-detail-title" id="tan-detail-title"></div>
+          <div class="tan-detail-sub" id="tan-detail-sub"></div>
+        </div>
+        <button class="tan-detail-close" onclick="tanCloseDetail()">✕</button>
+      </div>
+      <div class="tan-detail-body">
+        <div class="tan-detail-sec">
+          <div class="tan-detail-sec-lbl">Category</div>
+          <select class="tan-detail-sel" id="tan-detail-cat">
+            <option value="personal">🏠 Personal</option>
+            <option value="official">💼 Official</option>
+            <option value="kids">🧒 Kids</option>
+            <option value="visit">📅 Visit</option>
+            <option value="events">🎉 Events</option>
+            <option value="recurring">🔁 Recurring</option>
+          </select>
+        </div>
+        <div class="tan-detail-sec">
+          <div class="tan-detail-sec-lbl">Priority</div>
+          <select class="tan-detail-sel" id="tan-detail-prio">
+            <option value="high">🔴 High</option>
+            <option value="medium">🟡 Medium</option>
+            <option value="low">🟢 Low</option>
+          </select>
+        </div>
+        <div class="tan-detail-sec">
+          <div class="tan-detail-sec-lbl">Due Date</div>
+          <input type="date" class="tan-detail-sel" id="tan-detail-date">
+        </div>
+        <div class="tan-detail-sec">
+          <div class="tan-detail-sec-lbl">Recurrence</div>
+          <select class="tan-detail-sel" id="tan-detail-recur">
+            <option value="">None</option>
+            <option value="daily">🔁 Daily</option>
+            <option value="weekly">🔁 Weekly</option>
+            <option value="monthly">🔁 Monthly</option>
+          </select>
+        </div>
+        <div class="tan-detail-sec">
+          <div class="tan-detail-sec-lbl">Notes</div>
+          <textarea class="tan-detail-notes" id="tan-detail-notes" placeholder="Add context, links, details…"></textarea>
+        </div>
+        <div class="tan-detail-sec">
+          <div class="tan-detail-sec-lbl">Tags (comma separated)</div>
+          <input type="text" class="tan-detail-sel" id="tan-detail-tags" placeholder="work, followup, urgent">
+        </div>
+      </div>
+      <div class="tan-detail-footer">
+        <button class="btn-ghost" onclick="tanCloseDetail()">Cancel</button>
+        <button class="btn" onclick="tanSaveDetail()">💾 Save</button>
+      </div>
+    </div>
+  </div>
 
 </div>
-
 <!-- ── IMPORTANT DATES PAGE ───────────────────────── -->
 <div id="page-impdates" style="display:none;flex-direction:column;width:100%;min-height:calc(100vh - 60px);background:var(--bg);position:relative">
 
@@ -9491,8 +9727,7 @@ function tanSetFilter(f, btn){
 
 function tanSetCat(cat, btn){
   _tanCatFilter = cat;
-  document.querySelectorAll('#tan-fc-all,#tan-fc-personal,#tan-fc-official')
-    .forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('[id^="tan-fc-"]').forEach(b=>b.classList.remove('active'));
   if(btn) btn.classList.add('active');
   renderTaskNotes();
 }
@@ -9609,9 +9844,10 @@ function renderTaskNotes(){
   _tanSort = sort;
   let items = [...TASKNOTES];
 
-  // category filter
-  if(_tanCatFilter==='personal') items = items.filter(n=>(n.category||'personal')==='personal');
-  if(_tanCatFilter==='official') items = items.filter(n=>n.category==='official');
+  // category filter (all 6 categories)
+  if(_tanCatFilter!=='all') items = items.filter(n=>(n.category||'personal')===_tanCatFilter);
+  // optional date filter from calendar
+  if(typeof _tanDateFilter!=='undefined' && _tanDateFilter) items = items.filter(n=>n.date===_tanDateFilter);
 
   // status / priority filter
   if(_tanFilter==='open')   items = items.filter(n=>!n.done);
@@ -9633,6 +9869,9 @@ function renderTaskNotes(){
   else if(sort==='status') items.sort((a,b)=>(a.done?1:0)-(b.done?1:0));
 
   updateTaskNotesCount();
+  tanUpdateSidebarCounts();
+  tanRenderSummary();
+  tanRenderMiniCal();
 
   if(!items.length){
     const isFiltered = _tanFilter!=='all' || _tanCatFilter!=='all' || (document.getElementById('tan-search')?.value||'').trim();
@@ -9662,7 +9901,19 @@ function renderTaskNotes(){
 
   function renderItem(n){
     const cat      = n.category || 'personal';
-    const catLabel = cat==='official' ? '💼 Official' : '👤 Personal';
+    const CAT_META = {
+      personal: {label:'🏠 Personal', color:'#7f6fd4'},
+      official: {label:'💼 Official', color:'#3b82f6'},
+      kids:     {label:'🧒 Kids',     color:'#16a34a'},
+      visit:    {label:'📅 Visit',    color:'#ea580c'},
+      events:   {label:'🎉 Events',   color:'#0891b2'},
+      recurring:{label:'🔁 Recurring',color:'#6366f1'}
+    };
+    const catMeta  = CAT_META[cat] || CAT_META.personal;
+    const catLabel = catMeta.label;
+    const catColor = catMeta.color;
+    const isRecurring = cat==='recurring' || (n.recurrence && n.recurrence!=='');
+    const recurBadge  = isRecurring ? `<span class="tan-recur-badge">🔁 ${n.recurrence||'recurring'}</span>` : '';
     const prio     = n.priority || 'medium';
     const prioLabels = {high:'🔴 High', medium:'🟡 Med', low:'🟢 Low'};
     const doneCls  = n.done ? ' done' : '';
@@ -9670,26 +9921,29 @@ function renderTaskNotes(){
     const tagArr   = Array.isArray(n.tags) ? n.tags : (n.tags ? [n.tags] : []);
     const tagHtml  = tagArr.map(t=>`<span class="tan-tag-chip">#${esc(t)}</span>`).join('');
 
-    return `<div class="tan-item${n.done?' is-done':''} is-${prio}" id="tan-item-${n.id}" style="display:flex;flex-direction:row">
-      <div class="tan-item-strip ${prio}"></div>
-      <div class="tan-item-inner">
+    return `<div class="tan-item${n.done?' is-done':''} is-${prio}" id="tan-item-${n.id}" style="display:flex;flex-direction:row;margin-bottom:10px">
+      <div class="tan-item-strip" style="background:${catColor}"></div>
+      <div class="tan-item-inner" style="padding:10px 14px;gap:6px">
         <div class="tan-item-top">
           <input type="checkbox" class="tan-done-cb" ${n.done?'checked':''} onchange="toggleTanDone('${n.id}')">
           <span class="tan-item-priority ${prio}">${prioLabels[prio]}</span>
-          <div class="tan-item-text${doneCls}">${esc(n.text)}</div>
+          <div class="tan-item-text${doneCls}" style="cursor:pointer" onclick="event.stopPropagation();tanViewDetail('${n.id}')">${esc(n.text)}</div>
           <div class="tan-item-actions">
+            <button class="tan-act" onclick="tanViewDetail('${n.id}')">Detail</button>
             <button class="tan-act" onclick="tanToggleEdit('${n.id}')">Edit</button>
             ${n.done?`<button class="tan-act del-act" onclick="deleteTanNote('${n.id}')">Delete</button>`:''}
             <button class="tan-dot-btn" onclick="toggleTanDropdown('${n.id}',event)" title="More">⋯</button>
             <div class="tan-dropdown" id="tan-dd-${n.id}">
+              <div class="tan-dd-item" onclick="tanViewDetail('${n.id}')">🔍 Detail</div>
               <div class="tan-dd-item" onclick="tanDuplicate('${n.id}')">📋 Duplicate</div>
               <div class="tan-dd-item" onclick="tanToggleEdit('${n.id}');closeTanDropdown()">✏️ Edit</div>
               <div class="tan-dd-item danger" onclick="deleteTanNote('${n.id}')">🗑 Delete</div>
             </div>
           </div>
         </div>
-        <div class="tan-item-meta">
+        <div class="tan-item-meta" style="margin-top:2px">
           <span class="tan-cat-badge ${cat}">${catLabel}</span>
+          ${recurBadge}
           <span class="tan-date-badge">📅 ${fmtDate(n.date)}</span>
           ${tagHtml}
           <span style="font-size:11px;color:var(--muted)">${n.done?'✅ Done':'⏳ Open'}</span>
@@ -9698,8 +9952,12 @@ function renderTaskNotes(){
           <textarea class="tan-edit-textarea" id="tan-edit-text-${n.id}" rows="3">${esc(n.text)}</textarea>
           <div class="tan-edit-row">
             <select class="tan-cat-sel" id="tan-edit-cat-${n.id}" style="padding:5px 10px;font-size:12px">
-              <option value="personal" ${cat==='personal'?'selected':''}>👤 Personal</option>
+              <option value="personal" ${cat==='personal'?'selected':''}>🏠 Personal</option>
               <option value="official" ${cat==='official'?'selected':''}>💼 Official</option>
+              <option value="kids"     ${cat==='kids'    ?'selected':''}>🧒 Kids</option>
+              <option value="visit"    ${cat==='visit'   ?'selected':''}>📅 Visit</option>
+              <option value="events"   ${cat==='events'  ?'selected':''}>🎉 Events</option>
+              <option value="recurring"${cat==='recurring'?'selected':''}>🔁 Recurring</option>
             </select>
             <select class="tan-priority-sel" id="tan-edit-prio-${n.id}">
               <option value="high"   ${prio==='high'  ?'selected':''}>🔴 High</option>
@@ -9751,6 +10009,158 @@ function tanToggleEdit(id){
   const isOpen = el.classList.contains('open');
   el.classList.toggle('open', !isOpen);
   if(item) item.classList.toggle('editing', !isOpen);
+}
+
+/* ── TASKNOTES SIDEBAR COUNTS ──────────────────────── */
+function tanUpdateSidebarCounts(){
+  const all = TASKNOTES;
+  const set = (id,n)=>{ const el=document.getElementById(id); if(el) el.textContent=n; };
+  set('tan-pc-all', all.length);
+  ['personal','official','kids','visit','events','recurring'].forEach(cat=>{
+    set('tan-pc-'+cat, all.filter(n=>(n.category||'personal')===cat).length);
+  });
+}
+
+/* ── TASKNOTES SUMMARY PANEL ───────────────────────── */
+function tanRenderSummary(){
+  const all = TASKNOTES;
+  const todayStr = localToday();
+  const now = new Date();
+  const weekStart = new Date(now); weekStart.setDate(now.getDate()-now.getDay());
+  const wsISO = weekStart.toISOString();
+  const open   = all.filter(n=>!n.done).length;
+  const total  = all.length;
+  const doneToday = all.filter(n=>n.done && n.date===todayStr).length;
+  const high   = all.filter(n=>!n.done && n.priority==='high').length;
+  const medium = all.filter(n=>!n.done && n.priority==='medium').length;
+  const low    = all.filter(n=>!n.done && n.priority==='low').length;
+  const weekDone  = all.filter(n=>n.done && (n.created||'')>=wsISO).length;
+  const weekAdded = all.filter(n=>(n.created||'')>=wsISO).length;
+  const base = Math.max(open, 1);
+  const set = (id,v)=>{ const el=document.getElementById(id); if(el) el.textContent=v; };
+  const setW = (id,p)=>{ const el=document.getElementById(id); if(el) el.style.width=p+'%'; };
+  set('tan-stat-open', open);
+  set('tan-stat-total', total);
+  set('tan-stat-done-today', doneToday);
+  set('tan-pb-high-n', high);
+  set('tan-pb-med-n', medium);
+  set('tan-pb-low-n', low);
+  set('tan-week-done', weekDone);
+  set('tan-week-added', weekAdded);
+  setW('tan-pb-high', Math.round(high/base*100));
+  setW('tan-pb-med',  Math.round(medium/base*100));
+  setW('tan-pb-low',  Math.round(low/base*100));
+}
+
+/* ── MINI CALENDAR ──────────────────────────────────── */
+let _tanCalYear  = new Date().getFullYear();
+let _tanCalMonth = new Date().getMonth();
+let _tanCalActiveDate = null;
+let _tanDateFilter = null;
+
+function tanRenderMiniCal(){
+  const el = document.getElementById('tan-mini-cal');
+  if(!el) return;
+  const todayStr = localToday();
+  const taskDates = new Set(TASKNOTES.map(n=>n.date).filter(Boolean));
+  const yr=_tanCalYear, mo=_tanCalMonth;
+  const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const DNAMES=['S','M','T','W','T','F','S'];
+  const firstDay=new Date(yr,mo,1).getDay();
+  const dim=new Date(yr,mo+1,0).getDate();
+  const pad=n=>String(n).padStart(2,'0');
+  let html=`<div class="tan-cal-hdr"><button class="tan-cal-nav" onclick="tanCalNav(-1)">◀</button><div class="tan-cal-month">${MONTHS[mo]} ${yr}</div><button class="tan-cal-nav" onclick="tanCalNav(1)">▶</button></div><div class="tan-cal-grid">`;
+  DNAMES.forEach(d=>{ html+=`<div class="tan-cal-dh">${d}</div>`; });
+  for(let i=0;i<firstDay;i++) html+='<div class="tan-cal-cell is-other"></div>';
+  for(let d=1;d<=dim;d++){
+    const ds=yr+'-'+pad(mo+1)+'-'+pad(d);
+    const cls=['tan-cal-cell', ds===todayStr?'is-today':'', taskDates.has(ds)?'has-task':'', ds===_tanCalActiveDate?'is-active':''].filter(Boolean).join(' ');
+    html+=`<div class="${cls}" onclick="tanCalClickDate('${ds}')">${d}</div>`;
+  }
+  html+='</div>';
+  el.innerHTML=html;
+}
+
+function tanCalNav(dir){
+  _tanCalMonth+=dir;
+  if(_tanCalMonth<0){_tanCalMonth=11;_tanCalYear--;}
+  if(_tanCalMonth>11){_tanCalMonth=0;_tanCalYear++;}
+  tanRenderMiniCal();
+}
+
+function tanCalClickDate(ds){
+  if(_tanCalActiveDate===ds){
+    _tanCalActiveDate=null; _tanDateFilter=null;
+  } else {
+    _tanCalActiveDate=ds; _tanDateFilter=ds;
+  }
+  tanRenderMiniCal();
+  renderTaskNotes();
+}
+
+/* ── TASK DETAIL PANEL ──────────────────────────────── */
+let _tanDetailId=null;
+
+const TAN_CAT_META={
+  personal:{label:'🏠 Personal',color:'#7f6fd4'},
+  official:{label:'💼 Official',color:'#3b82f6'},
+  kids:    {label:'🧒 Kids',    color:'#16a34a'},
+  visit:   {label:'📅 Visit',   color:'#ea580c'},
+  events:  {label:'🎉 Events',  color:'#0891b2'},
+  recurring:{label:'🔁 Recurring',color:'#6366f1'}
+};
+
+function tanViewDetail(id){
+  const n=TASKNOTES.find(n=>n.id===id);
+  if(!n) return;
+  _tanDetailId=id;
+  const cat=n.category||'personal';
+  const cm=TAN_CAT_META[cat]||TAN_CAT_META.personal;
+  const prio=n.priority||'medium';
+  const prioLabel={high:'🔴 High',medium:'🟡 Medium',low:'🟢 Low'}[prio]||'';
+  const strip=document.getElementById('tan-detail-strip');
+  if(strip) strip.style.background=cm.color;
+  const titleEl=document.getElementById('tan-detail-title');
+  if(titleEl) titleEl.textContent=n.text||'(no title)';
+  const subEl=document.getElementById('tan-detail-sub');
+  if(subEl) subEl.innerHTML=`<span style="background:var(--s2);padding:1px 8px;border-radius:4px;font-size:11px">${cm.label}</span> <span>${prioLabel}</span>${n.date?' <span>📅 '+n.date+'</span>':''} ${n.done?'<span style="color:#059669">✅ Done</span>':''}`;
+  const catSel=document.getElementById('tan-detail-cat');
+  if(catSel) catSel.value=cat;
+  const prioSel=document.getElementById('tan-detail-prio');
+  if(prioSel) prioSel.value=prio;
+  const dateIn=document.getElementById('tan-detail-date');
+  if(dateIn) dateIn.value=n.date||'';
+  const recurSel=document.getElementById('tan-detail-recur');
+  if(recurSel) recurSel.value=n.recurrence||'';
+  const notesIn=document.getElementById('tan-detail-notes');
+  if(notesIn) notesIn.value=n.notes||'';
+  const tagsIn=document.getElementById('tan-detail-tags');
+  const tagArr=Array.isArray(n.tags)?n.tags:(n.tags?[n.tags]:[]);
+  if(tagsIn) tagsIn.value=tagArr.join(', ');
+  const ov=document.getElementById('tan-detail-overlay');
+  if(ov) ov.style.display='flex';
+}
+
+function tanCloseDetail(){
+  const ov=document.getElementById('tan-detail-overlay');
+  if(ov) ov.style.display='none';
+  _tanDetailId=null;
+}
+
+async function tanSaveDetail(){
+  const n=TASKNOTES.find(n=>n.id===_tanDetailId);
+  if(!n){ tanCloseDetail(); return; }
+  n.category  = document.getElementById('tan-detail-cat')?.value  || n.category;
+  n.priority  = document.getElementById('tan-detail-prio')?.value || n.priority;
+  n.date      = document.getElementById('tan-detail-date')?.value || n.date;
+  n.recurrence= document.getElementById('tan-detail-recur')?.value|| '';
+  n.notes     = document.getElementById('tan-detail-notes')?.value|| '';
+  const rawTags=(document.getElementById('tan-detail-tags')?.value||'').trim();
+  n.tags=rawTags?rawTags.split(',').map(t=>t.trim()).filter(Boolean):[];
+  tanCloseDetail();
+  await saveTaskNotes();
+  renderTaskNotes();
+  toast('Task updated ✓','success');
 }
 
 /* ── FINANCE TRACKER ─────────────────────────────── */
