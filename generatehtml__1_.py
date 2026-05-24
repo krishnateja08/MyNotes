@@ -3691,20 +3691,40 @@ body.theme-ember .tan-item.is-low{background:rgba(5,150,105,.06);border-color:rg
 .fin-title{font-family:'Inter',sans-serif;font-size:17px;font-weight:700;color:var(--text)}
 .fin-summary{
   display:grid;grid-template-columns:repeat(3,1fr);
-  gap:10px;padding:12px 20px;border-bottom:1px solid var(--border);
-  background:var(--bg);flex-shrink:0
+  gap:14px;padding:16px 20px;border-bottom:1px solid var(--border);
+  background:var(--bg);flex-shrink:0;
 }
 .fin-sum-card{
   background:var(--sidebar);border:1.5px solid var(--border);
-  border-radius:10px;padding:10px 14px;display:flex;flex-direction:column;gap:3px
+  border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:4px;
+  position:relative;overflow:hidden;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
+  transition:transform .18s,box-shadow .18s;
+  cursor:default;
+}
+.fin-sum-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.1)}
+.fin-sum-card.gave-card{border-left:4px solid #059669}
+.fin-sum-card.borrow-card{border-left:4px solid #dc2626}
+.fin-sum-card.net-card{border-left:4px solid var(--accent)}
+.fin-sum-icon{
+  position:absolute;top:12px;right:14px;
+  font-size:26px;line-height:1;opacity:.25;pointer-events:none;
 }
 .fin-sum-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted)}
-.fin-sum-val{font-family:'Inter',sans-serif;font-size:19px;font-weight:700;line-height:1.1}
+.fin-sum-val{font-family:'Inter',sans-serif;font-size:26px;font-weight:800;line-height:1.1}
 .fin-sum-val.gave{color:#059669}
 .fin-sum-val.borrow{color:#dc2626}
 .fin-sum-val.net-pos{color:#059669}
 .fin-sum-val.net-neg{color:#dc2626}
-.fin-sum-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.fin-sum-sub{font-size:11px;color:var(--muted);margin-top:1px}
+.fin-sum-prog-wrap{margin-top:8px}
+.fin-sum-prog-track{height:5px;background:var(--s2);border-radius:3px;overflow:hidden}
+.fin-sum-prog-fill{height:100%;border-radius:3px;transition:width .6s ease}
+.fin-sum-trend{font-size:10px;font-weight:700;display:flex;align-items:center;gap:3px;margin-top:4px}
+.fin-sum-trend.up{color:#059669}
+.fin-sum-trend.down{color:#dc2626}
+.fin-sum-trend.neutral{color:var(--muted)}
+@media(max-width:640px){.fin-summary{grid-template-columns:1fr;gap:8px}}
 .fin-people{
   padding:10px 20px 0;flex-shrink:0
 }
@@ -3736,18 +3756,71 @@ body.theme-ember .tan-item.is-low{background:rgba(5,150,105,.06);border-color:rg
 @media(max-width:900px){.fin-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:600px){.fin-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:400px){.fin-grid{grid-template-columns:1fr}}
+/* ── FINANCE ANALYTICS ROW ─────────────────────── */
+.fin-analytics{
+  display:flex;gap:8px;flex-wrap:wrap;
+  padding:8px 20px 0;flex-shrink:0;
+}
+.fin-analytic-chip{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;
+  background:var(--sidebar);border:1px solid var(--border);color:var(--text2);
+  white-space:nowrap;
+}
+.fin-analytic-chip.green{background:rgba(5,150,105,.1);color:#059669;border-color:rgba(5,150,105,.2)}
+.fin-analytic-chip.red{background:rgba(220,38,38,.1);color:#dc2626;border-color:rgba(220,38,38,.2)}
+.fin-analytic-chip.blue{background:rgba(37,99,235,.1);color:#2563eb;border-color:rgba(37,99,235,.2)}
+.fin-analytic-chip.amber{background:rgba(217,119,6,.1);color:#d97706;border-color:rgba(217,119,6,.2)}
+/* ── PERSON GROUP CARDS ─────────────────────────── */
+.fin-group-card{
+  background:var(--sidebar);border:1.5px solid var(--border);
+  border-radius:14px;margin-bottom:14px;overflow:hidden;
+  border-left:4px solid var(--border2);
+  transition:border-color .15s,box-shadow .15s;
+  animation:fin-card-in .22s ease both;
+}
+.fin-group-card:hover{box-shadow:0 4px 14px rgba(0,0,0,.09)}
+.fin-group-card.gave{border-left-color:#059669}
+.fin-group-card.borrowed{border-left-color:#dc2626}
+.fin-group-card.settled{border-left-color:#9ca3af}
+.fin-group-card-hdr{
+  display:flex;align-items:center;gap:12px;
+  padding:13px 16px;cursor:pointer;user-select:none;
+  transition:background .15s;
+}
+.fin-group-card-hdr:hover{background:var(--s2)}
+.fin-group-avatar{
+  width:38px;height:38px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:800;color:#fff;flex-shrink:0;
+  letter-spacing:.5px;
+}
+.fin-group-card-info{flex:1;min-width:0}
+.fin-group-card-name{font-size:14px;font-weight:700;color:var(--text);line-height:1.2}
+.fin-group-card-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.fin-group-card-amt{font-size:20px;font-weight:800;font-family:'Inter',sans-serif;flex-shrink:0;line-height:1}
+.fin-group-card-amt.pos{color:#059669}
+.fin-group-card-amt.neg{color:#dc2626}
+.fin-group-card-amt.zero{color:var(--muted)}
+.fin-group-card-grid{padding:0 12px 12px}
 /* Finance card — Notes-style */
+@keyframes fin-card-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 .fin-card{
   background:var(--sidebar);border:1.5px solid var(--border);
   border-left:4px solid var(--accent);border-radius:12px;
   padding:14px 16px;display:flex;flex-direction:column;gap:8px;
-  cursor:pointer;transition:border-color 0.18s,box-shadow 0.18s
+  cursor:pointer;transition:border-color 0.18s,box-shadow 0.18s,transform 0.15s;
+  animation:fin-card-in .2s ease both;
 }
-.fin-card:hover{border-color:var(--border2);box-shadow:0 4px 14px rgba(139,94,42,.1)}
+.fin-card:hover{border-color:var(--border2);box-shadow:0 4px 14px rgba(0,0,0,.09);transform:translateY(-1px)}
 .fin-card.gave{border-left-color:#059669}
 .fin-card.borrowed{border-left-color:#dc2626}
 .fin-card.settled{border-left-color:#9ca3af}
-.fin-card.overdue-card{border-left-color:#dc2626;border-color:rgba(220,38,38,.3);animation:fin-shake 3s ease 0.5s}
+.fin-card.overdue-card{
+  border-left-color:#dc2626;border-color:rgba(220,38,38,.3);
+  background:rgba(220,38,38,.025);
+  animation:fin-shake 3s ease 0.5s, fin-card-in .2s ease both;
+}
 @keyframes fin-shake{0%,100%{transform:translateX(0)}10%{transform:translateX(-3px)}20%{transform:translateX(3px)}30%{transform:translateX(-2px)}40%{transform:translateX(2px)}50%,90%{transform:translateX(0)}}
 /* 5. Sort select */
 .fin-sort-sel{
@@ -5920,22 +5993,40 @@ body.fontsize-compact .ncard-body{font-size:11px}
 
   <!-- Summary cards -->
   <div class="fin-summary">
-    <div class="fin-sum-card">
-      <div class="fin-sum-label">They Owe Me</div>
+    <div class="fin-sum-card gave-card">
+      <div class="fin-sum-icon">📥</div>
+      <div class="fin-sum-label">🟢 They Owe Me</div>
       <div class="fin-sum-val gave" id="fin-sum-gave">₹0</div>
       <div class="fin-sum-sub" id="fin-sum-gave-sub">0 entries</div>
+      <div class="fin-sum-prog-wrap">
+        <div class="fin-sum-prog-track"><div class="fin-sum-prog-fill" id="fin-prog-gave" style="background:#059669;width:0%"></div></div>
+      </div>
+      <div class="fin-sum-trend" id="fin-trend-gave"></div>
     </div>
-    <div class="fin-sum-card">
-      <div class="fin-sum-label">I Owe Them</div>
+    <div class="fin-sum-card borrow-card">
+      <div class="fin-sum-icon">📤</div>
+      <div class="fin-sum-label">🔴 I Owe Them</div>
       <div class="fin-sum-val borrow" id="fin-sum-borrow">₹0</div>
       <div class="fin-sum-sub" id="fin-sum-borrow-sub">0 entries</div>
+      <div class="fin-sum-prog-wrap">
+        <div class="fin-sum-prog-track"><div class="fin-sum-prog-fill" id="fin-prog-borrow" style="background:#dc2626;width:0%"></div></div>
+      </div>
+      <div class="fin-sum-trend" id="fin-trend-borrow"></div>
     </div>
-    <div class="fin-sum-card">
+    <div class="fin-sum-card net-card">
+      <div class="fin-sum-icon" id="fin-sum-net-icon">⚖️</div>
       <div class="fin-sum-label">Net Balance</div>
       <div class="fin-sum-val" id="fin-sum-net">₹0</div>
       <div class="fin-sum-sub" id="fin-sum-net-sub">—</div>
+      <div class="fin-sum-prog-wrap">
+        <div class="fin-sum-prog-track"><div class="fin-sum-prog-fill" id="fin-prog-net" style="background:var(--accent);width:50%"></div></div>
+      </div>
+      <div class="fin-sum-trend" id="fin-trend-net"></div>
     </div>
   </div>
+
+  <!-- Analytics row -->
+  <div class="fin-analytics" id="fin-analytics"></div>
 
   <!-- Per-person chips -->
   <div class="fin-people">
@@ -10593,6 +10684,49 @@ function renderFinance(){
   if(sbs) sbs.textContent=borCount+' pending';
   if(sns) sns.textContent=net>=0?'Overall you are ahead':'Overall you owe more';
 
+  // Progress bars: show % of total amount that is pending vs settled
+  const totalAll = totalGave + totalBorrowed || 1;
+  const settledGave = FINANCE.filter(e=>e.type==='gave'&&finStatus(e)==='settled').reduce((s,e)=>s+e.amount,0);
+  const settledBorr = FINANCE.filter(e=>e.type==='borrowed'&&finStatus(e)==='settled').reduce((s,e)=>s+e.amount,0);
+  const gaveTotal  = FINANCE.filter(e=>e.type==='gave').reduce((s,e)=>s+e.amount,0)||1;
+  const borrTotal  = FINANCE.filter(e=>e.type==='borrowed').reduce((s,e)=>s+e.amount,0)||1;
+  const setW = (id,pct)=>{ const el=document.getElementById(id); if(el) el.style.width=Math.round(pct)+'%'; };
+  setW('fin-prog-gave',  Math.min(100,(settledGave/gaveTotal)*100));
+  setW('fin-prog-borrow',Math.min(100,(settledBorr/borrTotal)*100));
+  setW('fin-prog-net',   net>=0 ? Math.min(100,(totalGave/(totalAll))*100) : Math.min(100,(totalBorrowed/(totalAll))*100));
+
+  // Net card icon + trend
+  const ni=document.getElementById('fin-sum-net-icon');
+  if(ni) ni.textContent = net>0?'📈':net<0?'📉':'⚖️';
+
+  // This-month trend
+  const thisMonthStr = new Date().toISOString().slice(0,7);
+  const setTrend = (id, items, cls) => {
+    const el = document.getElementById(id); if(!el) return;
+    const mAmt = items.reduce((s,e)=>s+(e.repayments||[]).filter(r=>(r.date||'').startsWith(thisMonthStr)).reduce((rs,r)=>rs+r.amount,0),0);
+    if(mAmt>0){ el.innerHTML=`<span>↑ ${finRupee(mAmt)} collected this month</span>`; el.className='fin-sum-trend '+cls; }
+    else { el.innerHTML=''; }
+  };
+  setTrend('fin-trend-gave', FINANCE.filter(e=>e.type==='gave'), 'up');
+  setTrend('fin-trend-borrow', FINANCE.filter(e=>e.type==='borrowed'), 'down');
+
+  // Analytics chips
+  const anaEl = document.getElementById('fin-analytics');
+  if(anaEl){
+    const overdueAmt = FINANCE.filter(e=>finStatus(e)==='overdue').reduce((s,e)=>s+finRemaining(e),0);
+    const top3 = Object.entries(
+      FINANCE.filter(e=>e.type==='gave').reduce((m,e)=>{ m[e.person]=(m[e.person]||0)+finRemaining(e); return m; },{})
+    ).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).slice(0,3);
+    const overdueCount = FINANCE.filter(e=>finStatus(e)==='overdue').length;
+    let chips = '';
+    if(gaveCount>0) chips+=`<span class="fin-analytic-chip green">💸 ${gaveCount} pending receivable${gaveCount>1?'s':''}</span>`;
+    if(overdueCount>0) chips+=`<span class="fin-analytic-chip red">⚠️ ${overdueCount} overdue · ${finRupee(overdueAmt)}</span>`;
+    if(top3.length) chips+=`<span class="fin-analytic-chip blue">🏆 Top: ${top3.map(([n,v])=>esc(n)+' '+finRupee(v)).join(', ')}</span>`;
+    const settledCount = FINANCE.filter(e=>finStatus(e)==='settled').length;
+    if(settledCount>0) chips+=`<span class="fin-analytic-chip amber">✅ ${settledCount} settled</span>`;
+    anaEl.innerHTML = chips;
+  }
+
   let items=[...FINANCE];
   if(_finPersonFilter!=='all') items=items.filter(e=>e.person===_finPersonFilter);
   if(_finFilter==='gave')      items=items.filter(e=>e.type==='gave');
@@ -10753,17 +10887,25 @@ function renderFinance(){
       <div class="fin-item-expand" id="fin-item-${e.id}">${expandBody}</div>
     </div>`;
 
-    // ── LIST row ──
-    const rowHtml=`<div class="fin-lrow" id="fin-lrow-${e.id}" onclick="toggleFinExpand('${e.id}',event)">
+    // ── LIST row (two-line layout) ──
+    const rowOverdueCls = st==='overdue'?' style="background:rgba(220,38,38,.04)"':'';
+    const rowHtml=`<div class="fin-lrow" id="fin-lrow-${e.id}" onclick="toggleFinExpand('${e.id}',event)"${rowOverdueCls}>
       <div class="fin-lrow-accent ${amtCls}"></div>
-      <div style="padding:0 8px">${isGave?'💚':'❤️'}</div>
+      <div style="padding:0 8px;font-size:16px">${isGave?'💚':'❤️'}</div>
       <div class="fin-lrow-main">
         <div class="fin-lrow-person">${esc(e.person)}</div>
-        ${e.notes?`<div class="fin-lrow-note">${esc(e.notes)}</div>`:''}
+        <div style="display:flex;align-items:center;gap:5px;margin-top:2px">
+          ${stBadge}
+          ${pmBadge}
+          ${dueBadge}
+          ${e.notes?`<span style="font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:160px">${esc(e.notes)}</span>`:''}
+        </div>
       </div>
-      <div><span class="fin-lrow-amt ${amtCls}">${finRupee(e.amount)}</span></div>
-      <div style="padding:0 4px">${stBadge}</div>
-      <div style="padding:0 4px">${pmBadge}</div>
+      <div><span class="fin-lrow-amt ${amtCls}">${finRupee(e.amount)}</span>
+        ${rem<e.amount&&st!=='settled'?`<div style="font-size:10px;color:var(--muted)">Rem: ${finRupee(rem)}</div>`:''}
+      </div>
+      <div></div>
+      <div></div>
       <div style="font-size:11px;color:var(--muted);font-weight:600">${fmtD(e.date)}</div>
       <div class="fin-lrow-right">
         <button class="cbtn" onclick="event.stopPropagation();openFinModal('${e.id}')">Edit</button>
@@ -10791,17 +10933,40 @@ function renderFinance(){
       let html='';
       Object.entries(groups).forEach(([person,entries])=>{
         const pendingAmt = entries.filter(({e})=>finStatus(e)!=='settled').reduce((s,{e})=>s+finRemaining(e),0);
-        const net = entries.reduce(({e:en})=>en.type==='gave'?finRemaining(en):-finRemaining(en),0);
+        const personNet  = entries.reduce((s,{e})=>s+(e.type==='gave'?finRemaining(e):-finRemaining(e)),0);
         const gKey='g'+person.replace(/\W/g,'');
-        const balCls=pendingAmt>0?'pos':'pos';
-        html+=`<div class="fin-group-hdr" onclick="document.getElementById('fgb-${gKey}').classList.toggle('collapsed');this.querySelector('.fin-group-chevron').classList.toggle('collapsed')">
-          <span class="fin-group-chevron">▼</span>
-          <span class="fin-group-name">${esc(person)}</span>
-          <span class="fin-group-bal ${balCls}">${pendingAmt>0?finRupee(pendingAmt)+' pending':'✅ Settled'}</span>
-          <span class="fin-group-count">${entries.length}</span>
-        </div>
-        <div class="fin-group-body fin-grid" id="fgb-${gKey}">
-          ${entries.map(({r})=>r.cardHtml).join('')}
+
+        // Status chips
+        const overdueN = entries.filter(({e})=>finStatus(e)==='overdue').length;
+        const pendingN = entries.filter(({e})=>finStatus(e)==='pending').length;
+        const partialN = entries.filter(({e})=>finStatus(e)==='partial').length;
+        const settledN = entries.filter(({e})=>finStatus(e)==='settled').length;
+        let statusChips='';
+        if(overdueN) statusChips+=`<span class="fin-status-badge overdue">${overdueN} Overdue</span>`;
+        if(pendingN) statusChips+=`<span class="fin-status-badge pending">${pendingN} Pending</span>`;
+        if(partialN) statusChips+=`<span class="fin-status-badge partial">${partialN} Partial</span>`;
+        if(settledN) statusChips+=`<span class="fin-status-badge settled">${settledN} Settled</span>`;
+
+        // Avatar
+        const initials = person.split(' ').map(w=>w[0]||'').join('').toUpperCase().slice(0,2)||'?';
+        const borderCls = personNet>0?'gave':personNet<0?'borrowed':'settled';
+        const avatarBg  = personNet>0?'#059669':personNet<0?'#dc2626':'#9ca3af';
+        const amtCls    = personNet>0?'pos':personNet<0?'neg':'zero';
+        const amtSign   = personNet>0?'+':personNet<0?'-':'';
+
+        html+=`<div class="fin-group-card ${borderCls}">
+          <div class="fin-group-card-hdr" onclick="document.getElementById('fgb-${gKey}').classList.toggle('collapsed');this.querySelector('.fin-group-chevron').classList.toggle('collapsed')">
+            <div class="fin-group-avatar" style="background:${avatarBg}">${initials}</div>
+            <div class="fin-group-card-info">
+              <div class="fin-group-card-name">${esc(person)}</div>
+              <div class="fin-group-card-chips">${statusChips}</div>
+            </div>
+            <div class="fin-group-card-amt ${amtCls}">${amtSign}${finRupee(Math.abs(personNet))}</div>
+            <span class="fin-group-chevron" style="margin-left:8px;font-size:10px;color:var(--muted)">▼</span>
+          </div>
+          <div class="fin-group-body fin-grid fin-group-card-grid" id="fgb-${gKey}">
+            ${entries.map(({r})=>r.cardHtml).join('')}
+          </div>
         </div>`;
       });
       cardGrid.innerHTML=html;
