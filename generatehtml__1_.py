@@ -6761,15 +6761,40 @@ body.fontsize-compact .ncard-body{font-size:11px}
           <option value="monthly">Monthly</option>
           <option value="custom">⚙️ Custom</option>
         </select>
-        <div id="repeat-custom-fields" style="display:none;gap:8px;align-items:center;width:100%;box-sizing:border-box;background:var(--s2);border:1px solid var(--border2);border-radius:8px;padding:10px 12px">
-          <span style="font-size:13px;color:var(--text2);white-space:nowrap;flex-shrink:0">Every</span>
-          <input id="f-repeat-num" type="number" min="1" max="999" value="1" style="width:60px;min-width:0;padding:8px 6px;background:var(--bg);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;outline:none;text-align:center;flex-shrink:0">
-          <select id="f-repeat-unit" style="flex:1;min-width:0;padding:9px 8px;background:var(--bg);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;outline:none;cursor:pointer;width:100%;box-sizing:border-box">
-            <option value="hours">Hours</option>
-            <option value="days" selected>Days</option>
-            <option value="weeks">Weeks</option>
-            <option value="months">Months</option>
-          </select>
+        <div id="repeat-custom-fields" style="display:none;flex-direction:column;gap:10px;width:100%;box-sizing:border-box;background:var(--s2);border:1px solid var(--border2);border-radius:8px;padding:10px 12px">
+          <!-- Row 1: Every N [unit] -->
+          <div style="display:flex;gap:8px;align-items:center;width:100%">
+            <span style="font-size:13px;color:var(--text2);white-space:nowrap;flex-shrink:0">Every</span>
+            <input id="f-repeat-num" type="number" min="1" max="999" value="1" style="width:60px;min-width:0;padding:8px 6px;background:var(--bg);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;outline:none;text-align:center;flex-shrink:0">
+            <select id="f-repeat-unit" onchange="toggleRepeatMonthlyOn()" style="flex:1;min-width:0;padding:9px 8px;background:var(--bg);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;outline:none;cursor:pointer;width:100%;box-sizing:border-box">
+              <option value="hours">Hours</option>
+              <option value="days" selected>Days</option>
+              <option value="weeks">Weeks</option>
+              <option value="months">Months</option>
+            </select>
+          </div>
+          <!-- Row 2: On the [position] [weekday] — shown only for Months -->
+          <div id="repeat-monthly-on" style="display:none;gap:8px;align-items:center;width:100%;flex-wrap:wrap">
+            <span style="font-size:12px;color:var(--muted);white-space:nowrap;flex-shrink:0">on the</span>
+            <select id="f-repeat-pos" onchange="updateRepeatMonthlyPreview()" style="flex:1;min-width:90px;padding:8px 8px;background:var(--bg);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;outline:none;cursor:pointer">
+              <option value="">— any day —</option>
+              <option value="1">First</option>
+              <option value="2">Second</option>
+              <option value="3">Third</option>
+              <option value="4">Fourth</option>
+              <option value="-1">Last</option>
+            </select>
+            <select id="f-repeat-dow" onchange="updateRepeatMonthlyPreview()" style="flex:1;min-width:100px;padding:8px 8px;background:var(--bg);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;outline:none;cursor:pointer">
+              <option value="0">Sunday</option>
+              <option value="1">Monday</option>
+              <option value="2">Tuesday</option>
+              <option value="3">Wednesday</option>
+              <option value="4">Thursday</option>
+              <option value="5">Friday</option>
+              <option value="6">Saturday</option>
+            </select>
+            <div id="repeat-monthly-preview" style="width:100%;font-size:11px;color:var(--accent);font-weight:600;padding:2px 2px 0"></div>
+          </div>
         </div>
       </div>
       <!-- Hidden field that stores the final repeat value used by save logic -->
@@ -7568,6 +7593,10 @@ function openModal(type='note'){
   document.getElementById('f-repeat-num').value='1';
   document.getElementById('f-repeat-unit').value='days';
   document.getElementById('repeat-custom-fields').style.display='none';
+  document.getElementById('repeat-monthly-on').style.display='none';
+  const _rpos=document.getElementById('f-repeat-pos'); if(_rpos) _rpos.value='';
+  const _rdow=document.getElementById('f-repeat-dow'); if(_rdow) _rdow.value='0';
+  const _rprev=document.getElementById('repeat-monthly-preview'); if(_rprev) _rprev.textContent='';
   const rbEl = document.getElementById('f-remind-before'); if(rbEl) rbEl.value='30';
   document.getElementById('f-pinned').value='false';
   document.getElementById('pin-btn').className='pin-btn';
@@ -7769,9 +7798,42 @@ function toggleRepeatCustom(){
   if(tog==='custom'){
     cf.style.display='flex';
     if(!document.getElementById('f-repeat-num').value) document.getElementById('f-repeat-num').value='1';
+    toggleRepeatMonthlyOn();
   } else {
     cf.style.display='none';
+    const mo=document.getElementById('repeat-monthly-on');
+    if(mo) mo.style.display='none';
   }
+}
+
+function toggleRepeatMonthlyOn(){
+  const unit=document.getElementById('f-repeat-unit').value;
+  const mo=document.getElementById('repeat-monthly-on');
+  if(!mo) return;
+  if(unit==='months'){
+    mo.style.display='flex';
+    updateRepeatMonthlyPreview();
+  } else {
+    mo.style.display='none';
+  }
+}
+
+function updateRepeatMonthlyPreview(){
+  const prev=document.getElementById('repeat-monthly-preview');
+  if(!prev) return;
+  const pos=document.getElementById('f-repeat-pos').value;
+  const dow=parseInt(document.getElementById('f-repeat-dow').value);
+  const num=parseInt(document.getElementById('f-repeat-num').value)||1;
+  if(pos===''){
+    prev.textContent='';
+    return;
+  }
+  const posLabels={'-1':'Last','1':'First','2':'Second','3':'Third','4':'Fourth'};
+  const dowLabels=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const posLabel=posLabels[pos]||pos;
+  const dowLabel=dowLabels[dow]||'';
+  const every=num===1?'every month':'every '+num+' months';
+  prev.textContent='↻ Repeats '+every+' on the '+posLabel+' '+dowLabel;
 }
 function switchType(t){
   currentType=t;
@@ -7836,13 +7898,23 @@ function editItem(id){
       document.getElementById('f-repeat-toggle').value=rv;
       document.getElementById('repeat-custom-fields').style.display='none';
     } else {
-      // Custom "N-unit" format
+      // Custom "N-unit" or "N-months-POS-DOW" format
       document.getElementById('f-repeat-toggle').value='custom';
       document.getElementById('repeat-custom-fields').style.display='flex';
-      const m = rv.match(/^(\d+)-(\w+)$/);
-      if(m){
+      // Extended format: "N-months-POS-DOW"
+      const mExt = rv.match(/^(\d+)-months-(-?\d+)-(\d+)$/);
+      const m    = !mExt && rv.match(/^(\d+)-(\w+)$/);
+      if(mExt){
+        document.getElementById('f-repeat-num').value=mExt[1];
+        document.getElementById('f-repeat-unit').value='months';
+        document.getElementById('repeat-monthly-on').style.display='flex';
+        document.getElementById('f-repeat-pos').value=mExt[2];
+        document.getElementById('f-repeat-dow').value=mExt[3];
+        updateRepeatMonthlyPreview();
+      } else if(m){
         document.getElementById('f-repeat-num').value=m[1];
         document.getElementById('f-repeat-unit').value=m[2];
+        document.getElementById('repeat-monthly-on').style.display=m[2]==='months'?'flex':'none';
       }
     }
   })();
@@ -7894,6 +7966,12 @@ async function saveItem(){
       if(tog==='daily'||tog==='weekly'||tog==='monthly') return tog;
       const num=parseInt(document.getElementById('f-repeat-num').value)||1;
       const unit=document.getElementById('f-repeat-unit').value||'days';
+      // If months + position/dow set, encode as "N-months-POS-DOW"
+      if(unit==='months'){
+        const pos=document.getElementById('f-repeat-pos').value;
+        const dow=document.getElementById('f-repeat-dow').value;
+        if(pos!=='') return num+'-months-'+pos+'-'+dow;
+      }
       return num+'-'+unit;
     })(),priority,sent:ex?ex.sent||false:false,created:ex?ex.created:now,updated:now,attachments:ex?ex.attachments||[]:[]};
     if(id)DATA.reminders=DATA.reminders.map(r=>r.id===id?rem:r);else DATA.reminders.push(rem);
