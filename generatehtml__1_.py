@@ -2323,10 +2323,44 @@ body.theme-arctic .notes-list-item.active{background:rgba(56,72,112,.1)}
 .full-cal-event.prio-low{background:rgba(34,197,94,.18);color:var(--green)}
 .full-cal-event.prio-default{background:var(--s2);color:var(--text2)}
 .full-cal-more{
-  font-size:10px;color:var(--muted);font-weight:700;cursor:pointer;
-  padding:1px 4px;border-radius:3px;transition:background 0.1s;
+  font-size:10px;color:var(--accent);font-weight:700;cursor:pointer;
+  padding:2px 6px;border-radius:4px;transition:background 0.1s;
+  background:rgba(var(--accent-rgb,99,102,241),.08);margin-top:1px;
 }
-.full-cal-more:hover{background:var(--s2);color:var(--accent)}
+.full-cal-more:hover{background:rgba(var(--accent-rgb,99,102,241),.18)}
+/* Day-events popup */
+#cal-more-popup{
+  position:fixed;z-index:9999;background:var(--card);border:1px solid var(--border);
+  border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.18);
+  min-width:220px;max-width:300px;padding:12px;
+  display:none;flex-direction:column;gap:6px;
+}
+#cal-more-popup.open{display:flex}
+#cal-more-popup-title{
+  font-size:12px;font-weight:800;color:var(--text);
+  border-bottom:1px solid var(--border);padding-bottom:8px;margin-bottom:4px;
+}
+#cal-more-popup-close{
+  position:absolute;top:8px;right:10px;cursor:pointer;
+  font-size:16px;color:var(--muted);background:none;border:none;
+  font-family:'Inter',sans-serif;line-height:1;
+}
+#cal-more-popup-close:hover{color:var(--text)}
+.cal-more-popup-item{
+  display:flex;align-items:flex-start;gap:6px;padding:5px 6px;
+  border-radius:6px;cursor:pointer;transition:background 0.1s;
+}
+.cal-more-popup-item:hover{background:var(--s2)}
+.cal-more-popup-time{
+  font-size:11px;font-weight:700;color:var(--accent);min-width:40px;flex-shrink:0;padding-top:1px;
+}
+.cal-more-popup-label{font-size:12px;font-weight:600;color:var(--text);line-height:1.4}
+.cal-more-popup-imp{color:var(--accent2)}
+.cal-more-go-day{
+  margin-top:4px;padding-top:8px;border-top:1px solid var(--border);
+  font-size:11px;color:var(--accent);font-weight:700;text-align:center;cursor:pointer;
+}
+.cal-more-go-day:hover{text-decoration:underline}
 
 /* == STREAK / NOTIFICATION PERMISSION == */
 .notif-prompt{
@@ -12614,7 +12648,7 @@ function renderFullCal(){
         const timeStr = r.due.length>10 ? r.due.slice(11,16)+' ' : '';
         return `<div class="full-cal-event ${pc}${doneClass}" onclick="event.stopPropagation();editItem('${r.id}')" title="${r.title}">${timeStr}${r.title}</div>`;
       }).join('');
-      const moreHtml = overflow>0 ? `<div class="full-cal-more" onclick="event.stopPropagation();calDayClick('${ds}')">+${overflow} more</div>` : '';
+      const moreHtml = overflow>0 ? `<div class="full-cal-more" onclick="event.stopPropagation();calShowMore('${ds}',event)">+${overflow} more</div>` : '';
       html += `<div class="full-cal-cell${isToday?' today':''}${isWeekend?' weekend':''}" onclick="calDayClick('${ds}')">
         <div class="full-cal-day-num">${d}</div>${impHtml}${evHtml}${moreHtml}</div>`;
     }
@@ -12663,11 +12697,96 @@ function renderFullCal(){
 }
 
 function calDayClick(ds){
-  // Switch to day view for that date
+  // Switch to day view for that date (called from week cell clicks)
   const [y,m,d] = ds.split('-').map(Number);
   _calYear=y; _calMonth=m-1; _calDay=d;
   setCalView('day', document.getElementById('cal-sv-day'));
 }
+
+function calShowMore(ds, evt){
+  evt && evt.stopPropagation();
+  const popup   = document.getElementById('cal-more-popup');
+  const titleEl = document.getElementById('cal-more-popup-title');
+  const listEl  = document.getElementById('cal-more-popup-list');
+  const goDay   = document.getElementById('cal-more-go-day');
+  if(!popup) return;
+
+  // Build reminder map for this date
+  const rems = (DATA.reminders||[]).filter(r=>r.due && r.due.slice(0,10)===ds)
+    .sort((a,b)=>(a.due||'').localeCompare(b.due||''));
+
+  // Build imp dates for this date (same yearly logic as renderFullCal)
+  const parts = ds.split('-'); const mo=parts[1], dd=parts[2];
+  const imps = (DATA.important_dates||[]).filter(e=>{
+    if(!e.date) return false;
+    const ep=e.date.split('-');
+    return ep[1]===mo && ep[2]===dd;
+  });
+
+  // Format title
+  const d = new Date(ds+'T00:00:00');
+  const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  titleEl.textContent = d.getDate()+' '+monthNames[d.getMonth()]+' '+d.getFullYear();
+
+  // Render items
+  let html = '';
+  imps.forEach(e=>{
+    const emoji = (function(){
+      const t=(e.title||'').toLowerCase();
+      if(t.includes('birthday')||t.includes('bday')) return '🎂';
+      if(t.includes('anniversary')||t.includes('anniv')) return '💍';
+      if(t.includes('wedding')) return '💒';
+      if(t.includes('graduation')) return '🎓';
+      if(t.includes('holiday')||t.includes('vacation')) return '🏖️';
+      return '🗓️';
+    })();
+    html += `<div class="cal-more-popup-item">
+      <div class="cal-more-popup-time cal-more-popup-imp">${emoji}</div>
+      <div class="cal-more-popup-label" style="color:var(--accent2)">${e.title||'Untitled'}${e.note?'<br><span style="font-size:10px;color:var(--muted)">'+e.note+'</span>':''}</div>
+    </div>`;
+  });
+  rems.forEach(r=>{
+    const timeStr = r.due && r.due.length>10 ? r.due.slice(11,16) : 'All day';
+    const doneStyle = r.sent ? 'opacity:.5;text-decoration:line-through' : '';
+    html += `<div class="cal-more-popup-item" style="${doneStyle}" onclick="calMoreClose();editItem('${r.id}')">
+      <div class="cal-more-popup-time">${timeStr}</div>
+      <div class="cal-more-popup-label">${r.title||'Untitled'}</div>
+    </div>`;
+  });
+  if(!html) html = '<div style="font-size:12px;color:var(--muted);padding:4px 6px">No events</div>';
+  listEl.innerHTML = html;
+
+  // "View full day" link
+  goDay.textContent = '→ View full day';
+  goDay.onclick = ()=>{ calMoreClose(); calDayClick(ds); };
+
+  // Position popup near the click
+  popup.classList.add('open');
+  const src = evt && evt.currentTarget ? evt.currentTarget : (evt && evt.target ? evt.target : null);
+  if(src){
+    const rect = src.getBoundingClientRect();
+    const pw = 300, ph = 320;
+    let left = rect.left + window.scrollX;
+    let top  = rect.bottom + 4 + window.scrollY;
+    if(left + pw > window.innerWidth - 8) left = window.innerWidth - pw - 8;
+    if(top  + ph > window.innerHeight + window.scrollY - 8) top = rect.top + window.scrollY - ph - 4;
+    popup.style.left = left+'px';
+    popup.style.top  = top+'px';
+  }
+}
+
+function calMoreClose(){
+  const popup = document.getElementById('cal-more-popup');
+  if(popup) popup.classList.remove('open');
+}
+
+// Close popup on outside click
+document.addEventListener('click', function(e){
+  const popup = document.getElementById('cal-more-popup');
+  if(popup && popup.classList.contains('open') && !popup.contains(e.target)){
+    popup.classList.remove('open');
+  }
+}, true);
 
 /* ============================================================
    MARKDOWN TOOLBAR HELPERS
@@ -15019,6 +15138,14 @@ window.addEventListener('DOMContentLoaded',()=>{
   });
 });
 </script>
+
+<!-- Calendar more-events popup -->
+<div id="cal-more-popup">
+  <button id="cal-more-popup-close" onclick="calMoreClose()">✕</button>
+  <div id="cal-more-popup-title"></div>
+  <div id="cal-more-popup-list"></div>
+  <div class="cal-more-go-day" id="cal-more-go-day"></div>
+</div>
 
 <!-- Image lightbox -->
 <div id="md-img-lightbox" onclick="this.classList.remove('open')">
