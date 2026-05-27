@@ -10565,11 +10565,15 @@ function renderTaskNotes(){
     const countColor = key==='open'
       ? 'background:rgba(124,92,191,.12);color:var(--accent);border-color:rgba(124,92,191,.25)'
       : 'background:rgba(5,150,105,.1);color:#059669;border-color:rgba(5,150,105,.2)';
+    const clearAllBtn = key==='done'
+      ? `<button onclick="event.stopPropagation();clearAllDoneTasks()" style="margin-left:auto;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;border:1px solid rgba(220,38,38,.3);background:rgba(220,38,38,.08);color:#dc2626;cursor:pointer;font-family:'Inter',sans-serif" title="Delete all completed tasks">🗑 Clear All</button>`
+      : '';
     return `<div>
       <div class="tan-section-hdr" onclick="tanToggleSection('${key}')">
         <span class="tan-section-chevron" id="tan-chev-${key}">▼</span>
         <span class="tan-section-title">${title}</span>
         <span class="tan-section-count" style="${countColor}">${arr.length}</span>
+        ${clearAllBtn}
       </div>
       <div class="tan-section-body" id="tan-sec-${key}">
         ${arr.map(renderItem).join('')}
@@ -10588,6 +10592,18 @@ function tanToggleSection(key){
   if(chev) chev.classList.toggle('collapsed');
 }
 
+
+function clearAllDoneTasks(){
+  const count = TASKNOTES.filter(n=>n.done).length;
+  if(!count){ toast('No completed tasks to clear','error'); return; }
+  if(!confirm('Delete all ' + count + ' completed task' + (count>1?'s':'') + '? This cannot be undone.')) return;
+  TASKNOTES = TASKNOTES.filter(n=>!n.done);
+  DATA.tasknotes = TASKNOTES;
+  saveTaskNotes();
+  renderTaskNotes();
+  updateBadge();
+  toast(count + ' completed task' + (count>1?'s':'')+' cleared ✓','success');
+}
 function tanToggleEdit(id){
   const el   = document.getElementById('tan-edit-'+id);
   const item = document.getElementById('tan-item-'+id);
