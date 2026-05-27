@@ -8176,14 +8176,16 @@ function quickCapture(){
     DATA.notes.push({id:'n_'+Date.now(),title:text,body:'',folder:'personal',created:now.toISOString()});
   } else if(type==='reminder'){
     if(!DATA.reminders) DATA.reminders=[];
-    DATA.reminders.push({id:'r_'+Date.now(),text:text,date:dateStr,time:'23:59',done:false,created:now.toISOString()});
+    DATA.reminders.push({id:'r_'+Date.now(),text:text,due:dateStr+' 23:59',done:false,created:now.toISOString()});
   } else if(type==='task'){
     if(!DATA.tasknotes) DATA.tasknotes=[];
     DATA.tasknotes.push({id:'tn_'+Date.now(),text:text,done:false,category:'personal',date:dateStr,created:now.toISOString()});
     if(typeof TASKNOTES!=='undefined') TASKNOTES=DATA.tasknotes;
   } else if(type==='sticky'){
-    if(!DATA.stickies) DATA.stickies=[];
-    DATA.stickies.push({id:'s_'+Date.now(),text:text,bg:'#fde68a',pinned:false});
+    if(!Array.isArray(STICKIES) || !STICKIES.length) STICKIES = DATA.stickies || [];
+    const s={id:'s_'+Date.now(),text:text,bg:'#fde68a',colorId:'yellow',pinned:false,tags:[],created:now.toISOString(),updated:now.toISOString()};
+    STICKIES.unshift(s);
+    DATA.stickies = STICKIES;
   } else if(type==='daybook'){
     if(!DATA.daybook) DATA.daybook=[];
     DATA.daybook.push({id:'db_'+Date.now(),date:dateStr,time:timeStr,text:text,tags:[],created:now.toISOString()});
@@ -8195,6 +8197,7 @@ function quickCapture(){
   if(typeof dbUpdateCounts==='function') dbUpdateCounts();
   if(typeof renderFinance==='function') renderFinance();
   if(typeof renderTaskNotes==='function') renderTaskNotes();
+  if(typeof renderStickyBoard==='function') renderStickyBoard();
   saveToFirebase();
   toast(`Added to ${type} ✓`,'success');
 }
