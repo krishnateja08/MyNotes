@@ -2218,9 +2218,10 @@ body.theme-arctic .notes-list-item.active{background:rgba(56,72,112,.1)}
 }
 .cal-week-col:last-child{border-right:none}
 .cal-week-hour-cell{
-  min-height:44px;border-bottom:1px solid var(--border);padding:2px 4px;
+  min-height:44px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);padding:2px 4px;
   display:flex;flex-direction:column;gap:1px;position:relative;
 }
+.cal-week-hour-cell:nth-child(8n){border-right:none}
 .cal-week-time-col{border-right:1px solid var(--border);}
 .cal-week-time-cell{
   min-height:44px;border-bottom:1px solid var(--border);
@@ -2282,7 +2283,9 @@ body.theme-arctic .notes-list-item.active{background:rgba(56,72,112,.1)}
 .full-cal-dow{
   text-align:center;padding:8px 4px;font-size:10px;font-weight:700;
   text-transform:uppercase;letter-spacing:1px;color:var(--muted);
+  border-right:1px solid var(--border);
 }
+.full-cal-dow:last-child{border-right:none}
 .full-cal-grid{
   display:grid;grid-template-columns:repeat(7,1fr);
   grid-auto-rows:1fr;flex:1;overflow:hidden;
